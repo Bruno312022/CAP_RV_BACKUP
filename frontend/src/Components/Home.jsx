@@ -9,20 +9,18 @@ function Home() {
 
   return (
     <>
-      <header>
-          <Link to="/Sidebar" className="Sidebar"><RiMenuFill /></Link>
-          <h4 className="bem-vindo">Bem-vindo, Nome+do+usuário!</h4>
-          <div>
-            <input className="search" type="search" placeholder="buscar" />
-            <RiSearch2Line />
-            </div>
+      <nav className="nav">
+        <div className="logo-sidebar" >
+        <Link to="/Sidebar" className="Sidebar">Sidebar</Link>
+        <h4 className="bem-vindo">Logo</h4>
+        </div>
 
-          <nav className="navigation">
-            <a onClick={() => navigate("/Atendimento")}>fale consco</a>
-            <a onClick={() => navigate("/Sobre")}>Sobre</a>
-            <a onClick={() => navigate("/")}>Sair</a>
-          </nav>
-      </header>
+        <nav className="navigation">
+          <a onClick={() => navigate("/Atendimento")}>fale consco</a>
+          <a onClick={() => navigate("/Sobre")}>Sobre</a>
+          <a onClick={() => navigate("/")}>Sair</a>
+        </nav>
+      </nav>
     </>
   );
 }
