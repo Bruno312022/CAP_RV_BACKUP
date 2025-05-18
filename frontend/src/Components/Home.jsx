@@ -1,22 +1,21 @@
-//importação de módulos
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "../Components/Sidebar";
 
-
-//frontend
 function Home() {
   const navigate = useNavigate();
 
   return (
     <>
+      <Sidebar /> {/* Aqui a Sidebar aparece já na Home */}
+
       <nav className="nav">
-        <div className="logo-sidebar" >
-        <Link to="/Sidebar" className="Sidebar">Sidebar</Link>
-        <h4 className="bem-vindo">Logo</h4>
+        <div className="logo-sidebar">
+          <h4 className="bem-vindo">Logo</h4>
         </div>
 
         <nav className="navigation">
-          <a onClick={() => navigate("/Atendimento")}>fale consco</a>
+          <a onClick={() => navigate("/Atendimento")}>Fale Conosco</a>
           <a onClick={() => navigate("/Sobre")}>Sobre</a>
           <a onClick={() => navigate("/")}>Sair</a>
         </nav>

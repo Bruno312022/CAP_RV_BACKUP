@@ -7,7 +7,7 @@ body{
 }
 
 nav{
-    background-color: whitesmoke;
+    background-color: rgb(42, 167, 48);
     display: flex;
     justify-content: space-between;
     align-items: center;
