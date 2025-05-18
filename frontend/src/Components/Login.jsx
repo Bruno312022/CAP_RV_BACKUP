@@ -1,21 +1,43 @@
-import React from "react";
+import React, { useState, useEffect }from "react";
+import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
-import { DiLinux } from "react-icons/di";
-import { BiLogoGoogle, BiUserCircle, BiLock } from "react-icons/bi";
-import { FaLinkedin } from "react-icons/fa";
-
 
 function Login() {
     const [useremail, setUseremail] = useState("");
     const [userpassword, setUserpassword] = useState("");
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const isAuthenticated = sessionStorage.getItem("Authenticated") === "true";
+        if (isAuthenticated) {
+            navigate("/Home");
+        }
+        
+    }, [navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        alert("Login bem-sucedido");
-        navigate('/Home');
-    }
+
+        try {
+            const response = await axios.post("https://localhost:3001/login", {
+                useremail,
+                userpassword,
+            });
+
+            if ( response.data.success ){
+                sessionStorage.setItem("Authenticated", "true");
+                sessionStorage.setItem("role", response.data.role);
+                updateAuthStatus(true);
+                alert("Login bem-sucedido.");
+                navigate("/Home")
+            } else {
+                alert("Usuário ou senha incorretos.")
+            }
+        } catch (error){
+            alert("Erro ao conctar-se com o servidor.")
+        }
+
+    };
 
     return (
         <>
@@ -26,13 +48,12 @@ function Login() {
                     <div className="input">
                         <input type="email" placeholder="E-mail"
                             onChange={(e) => setUseremail(e.target.value)} /*required*/ />
-                        <BiUserCircle />
+                       
                     </div>
 
                     <div className="input">
                         <input type="password" placeholder="Senha"
                             onChange={(e) => setUserpassword(e.target.value)} /*requiredd*/ />
-                        <BiLock />
                     </div><br />
 
                     <div className="cadastrar-resetar">
@@ -44,9 +65,9 @@ function Login() {
 
                 <p>Entre com:</p>
                 <div className="opcoes">
-                    <Link to="/Home"><DiLinux /></Link>
-                    <Link to="/Home"><BiLogoGoogle /></Link>
-                    <Link to="/Home"><FaLinkedin /></Link>
+                    <Link to="/Home"></Link>
+                    <Link to="/Home"></Link>
+                    <Link to="/Home"></Link>
                     <Link to="/Home"></Link>
                 </div>
             </div>

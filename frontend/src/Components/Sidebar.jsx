@@ -1,4 +1,5 @@
 
+
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../CSS/Sidebar.css";
@@ -28,11 +29,10 @@ function Sidebar() {
     <>
       <div className="navbar">
         <div className="toggle">&#9776;</div>
-        <h2 className="title">Minha Home</h2>
+        <img src="" alt="" />
       </div>
 
       <div className="sidebar">
-        <h1 className="logo">Recompensa Verde</h1>
         <a href="/">Sobre nos</a>
 
         <button className="dropdown-btn">Eventos ▾</button>

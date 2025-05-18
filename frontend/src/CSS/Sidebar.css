@@ -1,5 +1,3 @@
-/* Sidebar.css */
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -7,7 +5,7 @@ body {
 
 .navbar {
   height: 60px;
-  background-color:rgb(42, 167, 48);
+  background-color:#537D5D;
   color: rgb(255, 255, 255);
   display: flex;
   align-items: center;
@@ -25,9 +23,8 @@ body {
 }
 
 .sidebar {
- outline: rgb(105, 104, 104) ridge 3px;
   width: 250px;
-  background-color: #236306;
+  background-color: #9EBC8A;
   color: rgb(255, 255, 255);
   position: fixed;
   top: 60px;
@@ -54,7 +51,7 @@ body {
 
 .sidebar button.dropdown-btn:hover,
 .sidebar a:hover {
-  background-color: #068002;
+  background-color:green;
 }
 
 .sidebar .dropdown-container {
