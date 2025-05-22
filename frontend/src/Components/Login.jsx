@@ -1,77 +1,60 @@
-import React, { useState, useEffect }from "react";
-import axios from 'axios';
-import { useNavigate, Link } from "react-router-dom";
 
-function Login() {
-    const [useremail, setUseremail] = useState("");
-    const [userpassword, setUserpassword] = useState("");
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+function Login({ updateAuthStatus}) {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
+    //causa o efeito de direcionar para a página inicial se ja estiver autenticado
     useEffect(() => {
-        const isAuthenticated = sessionStorage.getItem("Authenticated") === "true";
+        const  isAuthenticated = sessionStorage.getItem("authenticated") === "true";
         if (isAuthenticated) {
-            navigate("/Home");
-        }
-        
-    }, [navigate]);
+            navigate("/home");
+        } 
+    }, [navigate]); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post("https://localhost:3001/login", {
-                useremail,
-                userpassword,
+            const response = await axios.post("http://localhost:3001/login", {
+                username,
+                password,
             });
 
-            if ( response.data.success ){
-                sessionStorage.setItem("Authenticated", "true");
+            if (response.data.success) {
+                sessionStorage.setItem("authenticated", "true");
                 sessionStorage.setItem("role", response.data.role);
                 updateAuthStatus(true);
-                alert("Login bem-sucedido.");
-                navigate("/Home")
+                alert("Login bem-sucedido!");
+                navigate("/home");
             } else {
-                alert("Usuário ou senha incorretos.")
+                alert("Usuário ou senha incorretos.");
             }
-        } catch (error){
-            alert("Erro ao conctar-se com o servidor.")
+        } catch (error) {
+            alert("Erro ao conectar ao servidor.");
         }
-
     };
 
+    //botar a imagem do nosso projeto;
     return (
-        <>
-            <div className="login-container">
-                <h2>Login</h2>
-                <form onSubmit={handleSubmit}>
+        <div>
+            <img src="" alt="" />
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit}>
+                <label>Username</label>
+                <input type="text" value={username}
+                    onChange={(e) => setUsername(e.target.value)} />
 
-                    <div className="input">
-                        <input type="email" placeholder="E-mail"
-                            onChange={(e) => setUseremail(e.target.value)} /*required*/ />
-                       
-                    </div>
-
-                    <div className="input">
-                        <input type="password" placeholder="Senha"
-                            onChange={(e) => setUserpassword(e.target.value)} /*requiredd*/ />
-                    </div><br />
-
-                    <div className="cadastrar-resetar">
-                        <Link to="/Cadastro">Cadastre-se</Link>
-                        <Link to="/Cadastro">Esqueceu sua senha?</Link>
-                    </div><br />
-                    <button type="submit" className="btn">Entrar</button><br />
-                </form><br /><hr />
-
-                <p>Entre com:</p>
-                <div className="opcoes">
-                    <Link to="/Home"></Link>
-                    <Link to="/Home"></Link>
-                    <Link to="/Home"></Link>
-                    <Link to="/Home"></Link>
-                </div>
-            </div>
-        </>
+                <label>Senha</label>
+                <input type="password" value={password}
+                    onChange={(e) => setPassword(e.target.value)} />
+                <button type="Submit">Login</button>
+            </form>
+        </div>
     );
 }
 
