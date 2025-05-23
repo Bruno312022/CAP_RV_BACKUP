@@ -10,8 +10,8 @@ function Login({ updateAuthStatus}) {
 
     //causa o efeito de direcionar para a página inicial se ja estiver autenticado
     useEffect(() => {
-        const  isAuthenticated = sessionStorage.getItem("authenticated") === "true";
-        if (isAuthenticated) {
+        const  tokenExists = sessionStorage.getItem("token") !== null;
+        if (tokenExists) {
             navigate("/home");
         } 
     }, [navigate]); 
@@ -25,14 +25,14 @@ function Login({ updateAuthStatus}) {
                 password,
             });
 
-            if (response.data.success) {
-                sessionStorage.setItem("authenticated", "true");
+            if (response.data.accessToken) {
+                sessionStorage.setItem("token", response.data.accessToken);
                 sessionStorage.setItem("role", response.data.role);
                 updateAuthStatus(true);
-                alert("Login bem-sucedido!");
                 navigate("/home");
+                alert("Login bem-sucedido!");
             } else {
-                alert("Usuário ou senha incorretos.");
+                alert("Não foi possível fazer login");
             }
         } catch (error) {
             alert("Erro ao conectar ao servidor.");

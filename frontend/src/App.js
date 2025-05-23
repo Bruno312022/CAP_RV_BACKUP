@@ -9,7 +9,7 @@ import SearchBar from "./Components/SearchBar";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(
-        sessionStorage.getItem("authenticated") === "true"
+        sessionStorage.getItem("token") !== null
     );
 
      const location = useLocation();
@@ -20,9 +20,9 @@ function App() {
 
    
     useEffect(() => {
-        const isAuthenticated = sessionStorage.getItem("authenticated") === "true";
-        if (!isAuthenticated && location.pathname !== "/login") {
-            alert("Usuário não possui permissão.")
+        const tokenExists = sessionStorage.getItem("token") !== "null";
+        if (!tokenExists && location.pathname !== "/login") {
+            alert("Logue primeiramente");
         }
     }, [location]);
 
@@ -43,6 +43,7 @@ function App() {
                     {/*autenticados*/}
                     <Route path="/home" element={isAuthenticated ? 
                     <Home updateAuthStatus={updateAuthStatus} /> : <Navigate to="/login" />} />
+                    <Route path="*" element={<Navigate to="/"/>}/>
 
                     <Route path="/usuarios" element={isAuthenticated && isAdmin() ? 
                     <UserList /> : <Navigate to="/login" />} />

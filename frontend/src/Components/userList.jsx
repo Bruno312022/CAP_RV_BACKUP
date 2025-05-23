@@ -16,7 +16,12 @@ function UserList() {
     //carrega os usuários
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/usuarios");
+            const token =  sessionStorage.getItem("token");
+            const response = await axios.get("http://localhost:3001/usuarios", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             setUsers(response.data);
         } catch (error) {
             alert("Erro ao carregar usuários!");
@@ -25,7 +30,12 @@ function UserList() {
      //função de deletar
     const handleDelete =  async (userId) => {
         try {
-            await axios.delete(`http://localhost:3001/usuarios/${userId}`);
+            const token = sessionStorage.getItem("token");
+            await axios.delete(`http://localhost:3001/usuarios/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             alert("Usuário deletado com sucesso");
             fetchUsers();
         } catch (error) {

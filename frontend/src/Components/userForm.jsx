@@ -22,11 +22,20 @@ function UserForm() {
         } 
 
         const userData = { username, password, role};
+        const token = sessionStorage.getItem("token");
         try {
             if (id) {
-                        await axios.put(`http://localhost:3001/usuarios/${id}`, userData);
+                        await axios.put(`http://localhost:3001/usuarios/${id}`, userData, {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        });
                 } else {
-                        await axios.post(`http://localhost:3001/usuarios`, userData);
+                        await axios.post(`http://localhost:3001/usuarios`, userData, {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        });
                         alert("Usuário criado com sucesso");
                 }
                 navigate('/usuarios')
