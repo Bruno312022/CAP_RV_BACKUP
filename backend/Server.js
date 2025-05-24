@@ -31,6 +31,20 @@ app.post("/login", async (req, res) => {
     return res.status(401).json({ error: "Credenciais inválidas" });
   }
 
+const createAdminUser = async () => {
+  const adminExists = await User.findOne({ where: { username: "admin" } });
+     if (!adminExists) {
+          const hashedPassword = await bcrypt.hash("1234", 10); // Criptografa a senha
+          await User.create({
+        
+              username: "admin",
+              password: hashedPassword,
+              role: "admin,
+    });
+             console.log("Usuário admin criado com sucesso!");
+ }
+};
+
   // Gera access token (válido por 30 minutos)
   const accessToken = jwt.sign(
     { username: user.username, role: user.role },
@@ -50,12 +64,15 @@ app.post("/login", async (req, res) => {
 });
 
 //inicia o servidor e cria o banco de dados
-sequelize.sync({ alter: true })
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Servidor rodando em http://localhost:${port}`);
-    });
-  })
-  .catch(err => {
-    console.error("Erro ao sincronizar o banco de dados:", err);
-  });
+sequelize.sync()
+    .then(() => {
+// Cria o usuário admin ao iniciar o servidor
+        createAdminUser().then(() => {
+           app.listen(port, () => {
+             console.log(`Servidor rodando em http://localhost:${port}`);
+       });
+     });
+ })
+ .catch(err => {
+ console.error("Erro ao sincronizar o banco de dados:", err);
+ });
