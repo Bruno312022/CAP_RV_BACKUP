@@ -13,9 +13,22 @@ const userRoutes = require('./Routes/userRoutes');
 const app = express();
 const port = 3001;
 
-
 app.use(express.json());
 app.use(cors());
+
+// Função movida para o escopo global
+const createAdminUser = async () => {
+  const adminExists = await User.findOne({ where: { username: "admin" } });
+  if (!adminExists) {
+    const hashedPassword = await bcrypt.hash("1234", 10);
+    await User.create({
+      username: "admin",
+      password: hashedPassword,
+      role: "admin"
+    });
+    console.log("Usuário admin criado com sucesso!");
+  }
+};
 
 //rota usuarios cruds
 app.use("/usuarios", authMiddleware, userRoutes);
@@ -23,56 +36,37 @@ app.use("/usuarios", authMiddleware, userRoutes);
 //login
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  // Busca usuário no banco
   const user = await User.findOne({ where: { username } });
 
-  // Verifica se usuário existe e a senha está correta
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).json({ error: "Credenciais inválidas" });
   }
 
-const createAdminUser = async () => {
-  const adminExists = await User.findOne({ where: { username: "admin" } });
-     if (!adminExists) {
-          const hashedPassword = await bcrypt.hash("1234", 10); // Criptografa a senha
-          await User.create({
-        
-              username: "admin",
-              password: hashedPassword,
-              role: "admin,
-    });
-             console.log("Usuário admin criado com sucesso!");
- }
-};
-
-  // Gera access token (válido por 30 minutos)
   const accessToken = jwt.sign(
     { username: user.username, role: user.role },
     accessSecret,
     { expiresIn: "30m" }
   );
 
-  // Gera refresh token (válido por 7 dias)
   const refreshToken = jwt.sign(
     { username: user.username },
     refreshSecret,
     { expiresIn: "360d" }
   );
 
-  // Envia os tokens ao frontend
   res.json({ accessToken, refreshToken, role: user.role });
 });
 
 //inicia o servidor e cria o banco de dados
 sequelize.sync()
-    .then(() => {
-// Cria o usuário admin ao iniciar o servidor
-        createAdminUser().then(() => {
-           app.listen(port, () => {
-             console.log(`Servidor rodando em http://localhost:${port}`);
-       });
-     });
- })
- .catch(err => {
- console.error("Erro ao sincronizar o banco de dados:", err);
- });
+  .then(() => {
+    createAdminUser().then(() => {
+      app.listen(port, () => {
+        console.log(`Servidor rodando em http://localhost:${port}`);
+      });
+    });
+  })
+  .catch(err => {
+    console.error("Erro ao sincronizar o banco de dados:", err);
+  });
+
