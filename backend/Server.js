@@ -6,54 +6,74 @@ const authMiddleware = require("./Middleware/authMiddleware");
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require("bcrypt");
-const User = require("./Models/User")
 const sequelize = require("./Database/db");
+
+//Obs: models
+const User = require("./Models/User");
+const Event = require("./Models/Event");
+const Parceiro = require("./Models/Parceiro");
+
+//rotas
 const userRoutes = require('./Routes/userRoutes');
+const eventRoutes = require('./Routes/EventRoutes');
+const parceiroRoutes = require('./Routes/ParceiroRoutes');
 
 const app = express();
 const port = 3001;
 
-
 app.use(express.json());
 app.use(cors());
 
-//rota usuarios cruds
+// Função movida para o escopo global
+const createAdminUser = async () => {
+  const adminExists = await User.findOne({ where: { username: "admin" } });
+  if (!adminExists) {
+    const hashedPassword = await bcrypt.hash("1234", 10);
+    await User.create({
+      username: "admin",
+      password: hashedPassword,
+      role: "admin"
+    });
+    console.log("Usuário admin criado com sucesso!");
+  }
+};
+
+//rota cruds
 app.use("/usuarios", authMiddleware, userRoutes);
+app.use("/eventos", authMiddleware, eventRoutes);
+app.use("/parceiros", authMiddleware, parceiroRoutes);
 
 //login
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  // Busca usuário no banco
   const user = await User.findOne({ where: { username } });
 
-  // Verifica se usuário existe e a senha está correta
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).json({ error: "Credenciais inválidas" });
   }
 
-  // Gera access token (válido por 30 minutos)
   const accessToken = jwt.sign(
     { username: user.username, role: user.role },
     accessSecret,
     { expiresIn: "30m" }
   );
 
-  // Gera refresh token (válido por 7 dias)
   const refreshToken = jwt.sign(
     { username: user.username },
     refreshSecret,
     { expiresIn: "360d" }
   );
 
-  // Envia os tokens ao frontend
   res.json({ accessToken, refreshToken, role: user.role });
 });
 
 //inicia o servidor e cria o banco de dados
-sequelize.sync({ alter: true })
+sequelize.sync()
   .then(() => {
-    app.listen(port, () => {
-      console.log(`Servidor rodando em http://localhost:${port}`);
+    createAdminUser().then(() => {
+      app.listen(port, () => {
+        console.log(`Servidor rodando em http://localhost:${port}`);
+      });
     });
   })
   .catch(err => {
