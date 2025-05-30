@@ -68,8 +68,9 @@ function App() {
                     <Route path="/eventos" element={isAuthenticated && (isColaborador() || isAdmin()) ?
                         <EventList /> : <Navigate to="/login" />} />
 
-                    <Route path="/eventos/evEdit/:id" element={isAuthenticated && (isColaborador() || isAdmin()) ?
+                    <Route path="/eventos/evEdit/:eventoId" element={isAuthenticated && (isColaborador() || isAdmin()) ?
                         <EventForm /> : <Navigate to="/login" />} />
+
 
                     <Route path="/eventos/evCadastro" element={isAuthenticated && (isColaborador() || isAdmin()) ?
                         <EventForm /> : <Navigate to="/login" />} />

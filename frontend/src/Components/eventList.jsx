@@ -2,55 +2,51 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
 function EventList() {
-    const [ events, setEvents] = useState([]);
+    const [events, setEvents] = useState([]);
 
-    //carrga lista de usuários ao montar o componente
-    
+    // Carrega lista de eventos ao montar o componente
     useEffect(() => {
         fetchEvents();
     }, []);
 
-    //fecthUser sofre os efeitos do componente useEffect
-    //carrega os usuários
+    // Função para carregar eventos
     const fetchEvents = async () => {
         try {
-            const token =  sessionStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
             const response = await axios.get("http://localhost:3001/eventos", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             });
             setEvents(response.data);
         } catch (error) {
+            console.error("Erro ao carregar eventos:", error);
             alert("Erro ao carregar eventos!");
         }
     };
-     //função de deletar
-    const handleDelete =  async (eventId) => {
+
+    // Função de deletar
+    const handleDelete = async (eventId) => {
         try {
             const token = sessionStorage.getItem("token");
             await axios.delete(`http://localhost:3001/eventos/${eventId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             });
+
             alert("Evento deletado com sucesso");
-            fetchEvents();
+            setEvents(events.filter(event => event.eventoId !== eventId)); // Atualiza a lista sem nova requisição
         } catch (error) {
-            alert("Erro ao deletar Evento!");
+            console.error("Erro ao deletar evento:", error);
+            alert("Erro ao deletar evento!");
         }
     };
 
-    //front
-    
-    return(
+    // Interface
+    return (
         <div>
-            <h2>lista de Eventos</h2>
+            <h2>Lista de Eventos</h2>
             <Link to="/eventos/evCadastro">Novo evento</Link>
             <ul>
-                {events.map( event => (
+                {events.map(event => (
                     <li key={event.eventoId}>
                         {event.eventoName}
                         <Link to={`/eventos/evEdit/${event.eventoId}`}>Editar</Link>
@@ -60,8 +56,6 @@ function EventList() {
             </ul>
         </div>
     );
-
-   
-};
+}
 
 export default EventList;

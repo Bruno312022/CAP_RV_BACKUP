@@ -2,9 +2,9 @@ const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize({
     dialect: 'mysql',
-    database: '[redacted]',
+    database: 'nomedoDB',
     host: 'localhost',
-    password: '[redacted]',
+    password: 'senha',
     username: 'root',
     port: 3306,
     storage: false
