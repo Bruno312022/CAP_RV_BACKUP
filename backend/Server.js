@@ -15,14 +15,16 @@ const Parceiro = require("./Models/Parceiro");
 
 //rotas
 const userRoutes = require('./Routes/userRoutes');
-const eventRoutes = require('./Routes/EventRoutes');
-const parceiroRoutes = require('./Routes/ParceiroRoutes');
+const eventRoutes = require('./Routes/eventRoutes');
+const parceiroRoutes = require('./Routes/parceiroRoutes');
 
 const app = express();
 const port = 3001;
 
 app.use(express.json());
 app.use(cors());
+
+
 
 // Função movida para o escopo global
 const createAdminUser = async () => {
@@ -79,3 +81,4 @@ sequelize.sync()
   .catch(err => {
     console.error("Erro ao sincronizar o banco de dados:", err);
   });
+
