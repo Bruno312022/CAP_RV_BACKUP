@@ -1,0 +1,367 @@
+.pontos-container {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding-top: 70px;
+}
+
+.pontos-content {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.5rem;
+    color: #537D5D;
+    gap: 1rem;
+}
+
+.loading-icon {
+    font-size: 3rem;
+    color: #4CAF50;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.moedas-display {
+    background: linear-gradient(135deg, #3a5a42 0%, #537D5D 100%);
+    padding: 1rem;
+    border-radius: 10px;
+    color: white;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.total-moedas {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.pontos-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.pontos-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #2c5282;
+    font-weight: 600;
+}
+
+.pontos-header p {
+    font-size: 1.2rem;
+    color: #4a5568;
+}
+
+.moedas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    gap: 1rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.moeda {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: float 3s ease-in-out infinite;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.moeda:hover {
+    transform: translateY(-8px) scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.estabelecimentos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.estabelecimento-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.estabelecimento-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.estabelecimento-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.estabelecimento-card:hover .estabelecimento-image {
+    transform: scale(1.05);
+}
+
+.estabelecimento-info {
+    padding: 1.5rem;
+}
+
+.estabelecimento-info h3 {
+    color: #2c5282;
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.estabelecimento-descricao {
+    color: #4a5568;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.produtos-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.produto-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.produto-item:hover {
+    background-color: rgba(76, 175, 80, 0.05);
+    border-radius: 5px;
+}
+
+.produto-item:last-child {
+    border-bottom: none;
+    margin-bottom: 1rem;
+}
+
+.produto-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.produto-icon {
+    color: #4CAF50;
+    font-size: 1.2rem;
+}
+
+.produto-nome {
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.produto-pontos {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.mini-moeda {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.trocar-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.trocar-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: linear-gradient(to right, #3a5a42, #537D5D);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo-sidebar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    text-decoration: none;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.leaf-icon {
+    color: #4CAF50;
+    font-size: 1.5rem;
+}
+
+.navigation {
+    display: flex;
+    gap: 2rem;
+}
+
+.navigation a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+.navigation a:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .pontos-container {
+        padding-top: 60px;
+    }
+
+    .pontos-content {
+        padding: 1rem;
+    }
+
+    .moedas-display {
+        padding: 0.8rem;
+        max-width: 250px;
+    }
+
+    .total-moedas {
+        font-size: 1.2rem;
+    }
+
+    .pontos-header h1 {
+        font-size: 2rem;
+    }
+
+    .estabelecimentos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .estabelecimento-card {
+        margin: 0 1rem;
+    }
+
+    .nav {
+        padding: 0 1rem;
+    }
+
+    .logo h1 {
+        font-size: 1rem;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pontos-header,
+.moedas-display,
+.estabelecimento-card {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+.estabelecimento-card {
+    animation-delay: calc(0.1s * var(--index, 0));
+}
+
+.moeda-icon {
+    font-size: 2rem;
+    color: #4CAF50;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.moeda-icon-small {
+    font-size: 1.2rem;
+    color: #4CAF50;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+} 

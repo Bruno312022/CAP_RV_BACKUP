@@ -1,3 +1,332 @@
-body{
-    background-color: white;
+body {
+    background-color: #f0f7f0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, 
+        #537D5D 0%,
+        #446b4d 50%,
+        #3D5C44 100%
+    );
+    padding: 20px;
+    animation: gradientAnimation 15s ease infinite;
+    background-size: 200% 200%;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(to right, #537D5D, #3D5C44);
+}
+
+.login-box:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+.login-header {
+    margin-bottom: 2.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.project-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    animation: fadeIn 1s ease-in;
+    padding: 0.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    margin: 0 auto;
+    background: rgba(160, 158, 158, 0.05);
+    padding: 0.8rem 0.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 255, 60, 0.1);
+    white-space: nowrap;
+    width: fit-content;
+    min-width: 320px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.title-container h1 {
+    display: inline-block;
+    color: #00ff3c;
+    font-size: 1.9rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 0px;
+    background: linear-gradient(45deg, #74b884, #539562);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.leaf-icon {
+    font-size: 1.8rem;
+    color: #537D5D;
+    animation: float 3s ease-in-out infinite;
+    margin: 0 0.2rem;
+}
+
+.leaf-icon.mirror {
+    transform: scaleX(-1);
+    animation: float 3s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) scaleX(-1);
+    }
+    50% {
+        transform: translateY(-5px) scaleX(-1);
+    }
+}
+
+.project-title p {
+    color: #666;
+    margin: 1rem 0 0;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.login-header h2 {
+    color: #537D5D;
+    font-size: 1.8rem;
+    margin: 1.5rem 0 0.5rem 0;
+}
+
+.login-header p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #537D5D;
+    box-shadow: 0 0 0 3px rgba(83, 125, 93, 0.1);
+    background: white;
+}
+
+.login-button {
+    background: linear-gradient(to right, #537D5D, #3D5C44);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.login-button:hover {
+    background: linear-gradient(to right, #446b4d, #2d4433);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(83, 125, 93, 0.2);
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0;
+    color: #666;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid #ddd;
+}
+
+.divider span {
+    padding: 0 1rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.social-button:hover {
+    background: #f8f9fa;
+    border-color: #537D5D;
+}
+
+.govbr-text {
+    font-weight: bold;
+    color: #1351B4;
+}
+
+.govbr-button {
+    color: #1351B4;
+    border-color: #1351B4;
+}
+
+.govbr-button:hover {
+    background: #f8f9fa;
+    border-color: #1351B4;
+}
+
+.google-button {
+    color: #444;
+}
+
+.google-button:hover {
+    background: #f8f9fa;
+}
+
+.login-footer {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.login-footer a {
+    color: #537D5D;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.login-footer a:hover {
+    color: #3D5C44;
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .login-box {
+        padding: 1.5rem 1rem;
+        margin: 1rem;
+        max-width: 95%;
+    }
+
+    .title-container {
+        padding: 0.6rem 0.4rem;
+        min-width: 280px;
+        transform: translateX(-3px);
+    }
+
+    .title-container h1 {
+        font-size: 1.5rem;
+    }
+
+    .leaf-icon {
+        font-size: 1.4rem;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

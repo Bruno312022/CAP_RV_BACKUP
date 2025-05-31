@@ -1,0 +1,142 @@
+.colaborador-list {
+    padding-top: 80px;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.colaborador-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.colaborador-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.colaborador-header h1 {
+    color: #537D5D;
+    margin: 0;
+    font-size: 2rem;
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #537D5D;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.add-button:hover {
+    background: #3D5C44;
+}
+
+.colaborador-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.colaborador-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.colaborador-card:hover {
+    transform: translateY(-5px);
+}
+
+.colaborador-info h3 {
+    color: #537D5D;
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+}
+
+.colaborador-info p {
+    color: #666;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.colaborador-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.edit-button, .delete-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.edit-button {
+    background: #537D5D;
+    color: white;
+    text-decoration: none;
+    border: none;
+}
+
+.edit-button:hover {
+    background: #3D5C44;
+}
+
+.delete-button {
+    background: white;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.delete-button:hover {
+    background: #dc3545;
+    color: white;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #537D5D;
+    font-size: 1.2rem;
+}
+
+.no-data {
+    text-align: center;
+    color: #666;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .colaborador-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .colaborador-grid {
+        grid-template-columns: 1fr;
+    }
+} 

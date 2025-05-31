@@ -1,0 +1,246 @@
+.user-form-page {
+    padding-top: 80px;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.user-form-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.form-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-header h1 {
+    color: #537D5D;
+    margin: 0;
+    font-size: 2rem;
+}
+
+.user-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group label .required {
+    color: #e53935;
+    margin-left: 4px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #537D5D;
+    box-shadow: 0 0 0 2px rgba(83, 125, 93, 0.2);
+}
+
+.form-group input.error,
+.form-group select.error {
+    border-color: #e53935;
+}
+
+.form-group .field-error {
+    color: #e53935;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.form-group .field-hint {
+    color: #666;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.cancel-button,
+.save-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+}
+
+.cancel-button {
+    background: white;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.cancel-button:hover:not(:disabled) {
+    background: #f5f5f5;
+    border-color: #ccc;
+    transform: translateY(-2px);
+}
+
+.cancel-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.save-button {
+    background: linear-gradient(to right, #537D5D, #3D5C44);
+    color: white;
+    border: none;
+    margin-left: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.save-button:hover:not(:disabled) {
+    background: linear-gradient(to right, #3D5C44, #2A4230);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(83, 125, 93, 0.2);
+}
+
+.save-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.save-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+    box-shadow: none;
+}
+
+.save-button:disabled:hover {
+    background: #cccccc;
+    transform: none;
+    box-shadow: none;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #537D5D;
+    font-size: 1.2rem;
+    gap: 1rem;
+}
+
+.loading-spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #537D5D;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    background-color: #ffebee;
+    border: 1px solid #ef5350;
+    color: #c62828;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.error-message svg {
+    flex-shrink: 0;
+}
+
+.success-message {
+    background-color: #e8f5e9;
+    border: 1px solid #66bb6a;
+    color: #2e7d32;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group .password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 38px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.form-group .password-toggle:hover {
+    color: #537D5D;
+}
+
+@media (max-width: 768px) {
+    .user-form-content {
+        padding: 1rem;
+    }
+
+    .user-form {
+        padding: 1.5rem;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+        gap: 1rem;
+    }
+
+    .save-button,
+    .cancel-button {
+        margin: 0;
+        width: 100%;
+    }
+} 

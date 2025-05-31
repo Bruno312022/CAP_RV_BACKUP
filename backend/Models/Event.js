@@ -26,6 +26,33 @@ const Event = sequelize.define("Event", {
     eventoHora: {
         type: DataTypes.TIME,
         allowNull: false
+    },
+
+    descricao: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+
+    categoria: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'Palestra'
+    },
+
+    imagem: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
+
+    link: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
+
+    status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'active'
     }
 });
 

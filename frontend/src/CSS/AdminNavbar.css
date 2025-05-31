@@ -1,0 +1,74 @@
+.admin-navbar {
+    background: linear-gradient(to right, #537D5D, #3D5C44);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 70px;
+}
+
+.admin-navbar-content {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 1rem;
+}
+
+.toggle {
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    padding: 8px;
+    transition: all 0.3s ease;
+}
+
+.toggle:hover {
+    transform: scale(1.1);
+}
+
+.admin-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.admin-logo h1 {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.admin-title {
+    margin-left: auto;
+}
+
+.admin-title h2 {
+    color: white;
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+.leaf-icon {
+    color: white;
+    font-size: 1.5rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.leaf-icon.mirror {
+    transform: scaleX(-1);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) scaleX(-1);
+    }
+    50% {
+        transform: translateY(-5px) scaleX(-1);
+    }
+} 

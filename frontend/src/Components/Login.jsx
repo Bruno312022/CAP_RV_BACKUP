@@ -1,59 +1,154 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import '../CSS/Login.css';
+import { FaGoogle, FaLeaf } from 'react-icons/fa';
 
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
-function Login({ updateAuthStatus}) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+function Login({ updateAuthStatus }) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const navigate = useNavigate();
-
-    //causa o efeito de direcionar para a página inicial se ja estiver autenticado
-    useEffect(() => {
-        const  tokenExists = sessionStorage.getItem("token") !== null;
-        if (tokenExists) {
-            navigate("/home");
-        } 
-    }, [navigate]); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        
         try {
-            const response = await axios.post("http://localhost:3001/login", {
-                username,
-                password,
-            });
+            // Verifica se é o login admin/1234
+            if (email === 'admin' && password === '1234') {
+                const response = await axios.post('http://localhost:3001/login', {
+                    username: email,
+                    password
+                });
+                
+                if (response.data.accessToken) {
+                    console.log('Token recebido:', response.data.accessToken);
+                    sessionStorage.setItem('token', response.data.accessToken);
+                    sessionStorage.setItem('role', response.data.role || 'user');
+                    if (updateAuthStatus) {
+                        updateAuthStatus(true);
+                    }
+                    const redirectUrl = sessionStorage.getItem('redirectUrl');
+                    console.log('URL de redirecionamento:', redirectUrl);
+                    
+                    if (redirectUrl && redirectUrl !== '/') {
+                        sessionStorage.removeItem('redirectUrl');
+                        navigate(redirectUrl);
+                    } else {
+                        navigate('/home');
+                    }
+                }
+                return;
+            }
 
+            // Se não for admin, tenta o login normal
+            const response = await axios.post('http://localhost:3001/login', {
+                username: email,
+                password
+            });
+            
             if (response.data.accessToken) {
-                sessionStorage.setItem("token", response.data.accessToken);
-                sessionStorage.setItem("role", response.data.role);
-                updateAuthStatus(true);
-                navigate("/home");
-                alert("Login bem-sucedido!");
-            } else {
-                alert("Não foi possível fazer login");
+                console.log('Token recebido:', response.data.accessToken);
+                sessionStorage.setItem('token', response.data.accessToken);
+                sessionStorage.setItem('role', response.data.role || 'user');
+                if (updateAuthStatus) {
+                    updateAuthStatus(true);
+                }
+                const redirectUrl = sessionStorage.getItem('redirectUrl');
+                console.log('URL de redirecionamento:', redirectUrl);
+                
+                if (redirectUrl && redirectUrl !== '/') {
+                    sessionStorage.removeItem('redirectUrl');
+                    navigate(redirectUrl);
+                } else {
+                    navigate('/home');
+                }
             }
         } catch (error) {
-            alert("Erro ao conectar ao servidor.");
+            console.error('Erro no login:', error);
+            alert('Email ou senha inválidos');
         }
     };
 
-    //botar a imagem do nosso projeto;
-    return (
-        <div>
-            <img src="" alt="" />
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <label>Username</label>
-                <input type="text" value={username}
-                    onChange={(e) => setUsername(e.target.value)} />
+    const handleGoogleLogin = () => {
+        // Implementação futura do login com Google
+        alert('Login com Google será implementado em breve!');
+    };
 
-                <label>Senha</label>
-                <input type="password" value={password}
-                    onChange={(e) => setPassword(e.target.value)} />
-                <button type="Submit">Login</button>
-            </form>
+    const handleGovBrLogin = () => {
+        // Implementação futura do login com gov.br
+        alert('Login com gov.br será implementado em breve!');
+    };
+
+    return (
+        <div className="login-container">
+            <div className="login-box">
+                <div className="login-header">
+                    <div className="project-title">
+                        <div className="title-container">
+                            <h1>RECOMPENSA VERDE</h1>
+                            <FaLeaf className="leaf-icon" />
+                        </div>
+                        <p>Sustentabilidade em Ação</p>
+                    </div>
+                    <h2>Bem-vindo</h2>
+                    <p>Faça login para acessar sua conta</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="login-form">
+                    <div className="form-group">
+                        <label htmlFor="email">Usuário</label>
+                        <input
+                            type="text"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Digite seu usuário"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="password">Senha</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Digite sua senha"
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" className="login-button">
+                        Entrar
+                    </button>
+                </form>
+
+                <div className="divider">
+                    <span>ou continue com</span>
+                </div>
+
+                <div className="social-login">
+                    <button onClick={handleGovBrLogin} className="social-button govbr-button">
+                        <span className="govbr-text">gov.br</span>
+                        <span>Entrar com gov.br</span>
+                    </button>
+
+                    <button onClick={handleGoogleLogin} className="social-button google-button">
+                        <FaGoogle />
+                        <span>Entrar com Google</span>
+                    </button>
+                </div>
+
+                <div className="login-footer">
+                    <p>
+                        Não tem uma conta? <a href="/register">Cadastre-se</a>
+                    </p>
+                    <p>
+                        <a href="/forgot-password">Esqueceu sua senha?</a>
+                    </p>
+                </div>
+            </div>
         </div>
     );
 }

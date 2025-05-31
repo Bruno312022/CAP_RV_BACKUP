@@ -2,8 +2,18 @@ const Event = require("../Models/Event");
 
 exports.createEvent = async (req, res) => {
     try {
-        const { eventoName, eventoEndereco, eventoData, eventoHora } = req.body;
-        const event = await Event.create({ eventoName, eventoEndereco, eventoData, eventoHora });
+        const { eventoName, eventoEndereco, eventoData, eventoHora, descricao, categoria, imagem, link, status } = req.body;
+        const event = await Event.create({ 
+            eventoName, 
+            eventoEndereco, 
+            eventoData, 
+            eventoHora,
+            descricao,
+            categoria,
+            imagem,
+            link,
+            status
+        });
         res.status(201).json(event);
     } catch (error) {
         console.error(error);
@@ -24,9 +34,19 @@ exports.listEvent = async (req, res) => {
 exports.updateEvent = async (req, res) => {
     try {
         const { eventoId } = req.params;
-        const { eventoName, eventoEndereco, eventoData, eventoHora } = req.body;
+        const { eventoName, eventoEndereco, eventoData, eventoHora, descricao, categoria, imagem, link, status } = req.body;
         const updatedRows = await Event.update(
-            { eventoName, eventoEndereco, eventoData, eventoHora },
+            { 
+                eventoName, 
+                eventoEndereco, 
+                eventoData, 
+                eventoHora,
+                descricao,
+                categoria,
+                imagem,
+                link,
+                status
+            },
             { where: { eventoId } }
         );
 

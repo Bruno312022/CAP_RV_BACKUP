@@ -1,84 +1,130 @@
-//importação dos itens necessários
+/**
+ * Servidor principal da aplicação Recompensa Verde
+ * Este arquivo configura e inicializa o servidor Express, define rotas e middlewares
+ */
+
+//=================== IMPORTAÇÕES ===================
+// Bibliotecas de autenticação e segurança
 const jwt = require("jsonwebtoken");
 const accessSecret = "chave_acesso_super_secreta";
 const refreshSecret = "chave_refresh_token_super_secreta";
 const authMiddleware = require("./Middleware/authMiddleware");
+const bcrypt = require("bcrypt");
+
+// Framework e middlewares principais
 const express = require('express');
 const cors = require('cors');
-const bcrypt = require("bcrypt");
+
+// Banco de dados
 const sequelize = require("./Database/db");
 
-//Obs: models
-const User = require("./Models/User");
-const Event = require("./Models/Event");
-const Parceiro = require("./Models/Parceiro");
+//=================== MODELS ===================
+// Importação dos modelos do banco de dados
+const User = require("./Models/User");         // Model de usuários
+const Event = require("./Models/Event");       // Model de eventos
+const Parceiro = require("./Models/Parceiro"); // Model de parceiros
 
-//rotas
-const userRoutes = require('./Routes/userRoutes');
-const eventRoutes = require('./Routes/eventRoutes');
-const parceiroRoutes = require('./Routes/parceiroRoutes');
+//=================== ROTAS ===================
+// Importação dos arquivos de rotas
+const userRoutes = require('./Routes/userRoutes');       // Rotas de usuários
+const eventRoutes = require('./Routes/eventRoutes');     // Rotas de eventos
+const parceiroRoutes = require('./Routes/parceiroRoutes'); // Rotas de parceiros
 
+//=================== CONFIGURAÇÃO DO SERVIDOR ===================
 const app = express();
 const port = 3001;
 
-app.use(express.json());
-app.use(cors());
+// Middlewares globais
+app.use(express.json()); // Para parsing de JSON
+app.use(cors());         // Para permitir requisições cross-origin
 
-
-
-// Função movida para o escopo global
+//=================== FUNÇÕES AUXILIARES ===================
+/**
+ * Função para criar usuário administrador padrão
+ * Executada quando o servidor inicia
+ * Cria um usuário admin se não existir
+ */
 const createAdminUser = async () => {
-  const adminExists = await User.findOne({ where: { username: "admin" } });
-  if (!adminExists) {
-    const hashedPassword = await bcrypt.hash("1234", 10);
-    await User.create({
-      username: "admin",
-      password: hashedPassword,
-      role: "admin"
-    });
-    console.log("Usuário admin criado com sucesso!");
-  }
+    try {
+        const adminExists = await User.findOne({ where: { username: "admin" } });
+        if (!adminExists) {
+            const hashedPassword = await bcrypt.hash("1234", 10);
+            await User.create({
+                username: "admin",
+                email: "admin@recompensaverde.com",
+                password: hashedPassword,
+                role: "admin"
+            });
+            console.log("Usuário admin criado com sucesso!");
+        }
+    } catch (error) {
+        console.error("Erro ao criar usuário admin:", error);
+    }
 };
 
-//rota cruds
-app.use("/usuarios", authMiddleware, userRoutes);
-app.use("/eventos", authMiddleware, eventRoutes);
-app.use("/parceiros", authMiddleware, parceiroRoutes);
+//=================== ROTAS PROTEGIDAS ===================
+// Todas estas rotas requerem autenticação via token JWT
+app.use("/usuarios", authMiddleware, userRoutes);    // Gerenciamento de usuários
+app.use("/eventos", authMiddleware, eventRoutes);    // Gerenciamento de eventos
+app.use("/parceiros", authMiddleware, parceiroRoutes); // Gerenciamento de parceiros
 
-//login
+//=================== ROTA DE LOGIN ===================
+/**
+ * Rota de autenticação
+ * Não requer token pois é usada para obter o token inicial
+ */
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ where: { username } });
+    try {
+        const { username, password } = req.body;
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).json({ error: "Credenciais inválidas" });
-  }
+        // Busca o usuário no banco
+        const user = await User.findOne({ where: { username } });
+        if (!user) {
+            return res.status(401).json({ error: "Usuário não encontrado." });
+        }
 
-  const accessToken = jwt.sign(
-    { username: user.username, role: user.role },
-    accessSecret,
-    { expiresIn: "30m" }
-  );
+        // Verifica a senha
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            return res.status(401).json({ error: "Senha incorreta." });
+        }
 
-  const refreshToken = jwt.sign(
-    { username: user.username },
-    refreshSecret,
-    { expiresIn: "360d" }
-  );
+        // Gera o token JWT
+        const token = jwt.sign(
+            { id: user.id, username: user.username, role: user.role },
+            "chave_acesso_super_secreta",
+            { expiresIn: "24h" }
+        );
 
-  res.json({ accessToken, refreshToken, role: user.role });
+        // Retorna o token e dados do usuário
+        res.json({
+            token,
+            user: {
+                id: user.id,
+                username: user.username,
+                role: user.role
+            }
+        });
+    } catch (error) {
+        console.error('Erro no login:', error);
+        res.status(500).json({ error: "Erro interno no servidor." });
+    }
 });
 
-//inicia o servidor e cria o banco de dados
+//=================== INICIALIZAÇÃO DO SERVIDOR ===================
+/**
+ * Sincroniza os modelos com o banco de dados
+ * Cria o usuário admin se necessário
+ * Inicia o servidor na porta especificada
+ */
 sequelize.sync()
-  .then(() => {
-    createAdminUser().then(() => {
-      app.listen(port, () => {
-        console.log(`Servidor rodando em http://localhost:${port}`);
-      });
+    .then(async () => {
+        await createAdminUser();
+        app.listen(port, () => {
+            console.log(`Servidor rodando em http://localhost:${port}`);
+        });
+    })
+    .catch(err => {
+        console.error("Erro ao sincronizar o banco de dados:", err);
     });
-  })
-  .catch(err => {
-    console.error("Erro ao sincronizar o banco de dados:", err);
-  });
 
